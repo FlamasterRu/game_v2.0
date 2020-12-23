@@ -29,8 +29,11 @@ int main()
         case Settings:      // Открыть настройки
             engine.settings();
             break;
-        case LevelSelectionMenu:
+        case LevelSelectionMenu:    // Открыть меню выбора уровня
             engine.levelSelectionMenu();
+            break;
+        case StartLevel:
+            engine.startLevel();
             break;
         default:
             break;

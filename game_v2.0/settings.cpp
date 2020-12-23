@@ -106,22 +106,22 @@ void Engine::drawSettings()
 	text2.setStyle(Text::Bold);
 	text2.setCharacterSize(34);
 
-	Text text3("Up: " + stringKeyToMoveTop, font);
+	Text text3("Up: " + e_stringKeyToMoveTop, font);
 	text3.setFillColor(SpaseBlue);
 	text3.setPosition(PositionX, PositionY);
 	PositionY += text3.getCharacterSize() * 1.5;
 
-	Text text4("Down: " + stringKeyToMoveBot, font);
+	Text text4("Down: " + e_stringKeyToMoveBot, font);
 	text4.setFillColor(SpaseBlue);
 	text4.setPosition(PositionX, PositionY);
 	PositionY += text4.getCharacterSize() * 1.5;
 
-	Text text5("Left: " + stringKeyToMoveLeft, font);
+	Text text5("Left: " + e_stringKeyToMoveLeft, font);
 	text5.setFillColor(SpaseBlue);
 	text5.setPosition(PositionX, PositionY);
 	PositionY += text5.getCharacterSize() * 1.5;
 
-	Text text6("Right: " + stringKeyToMoveRight, font);
+	Text text6("Right: " + e_stringKeyToMoveRight, font);
 	text6.setFillColor(SpaseBlue);
 	text6.setPosition(PositionX, PositionY);
 	PositionY += text6.getCharacterSize() * 5.0;
@@ -133,7 +133,7 @@ void Engine::drawSettings()
 	text7.setStyle(Text::Bold);
 	text7.setCharacterSize(34);
 
-	Text text8("Laser fire: " + stringKeyToFire, font);
+	Text text8("Laser fire: " + e_stringKeyToFire, font);
 	text8.setFillColor(SpaseBlue);
 	text8.setPosition(PositionX, PositionY);
 	PositionY += text8.getCharacterSize() * 1.5;
@@ -170,32 +170,32 @@ void Engine::inputSettings()
 			if ((mousePosition.y > resolution.y + 90) and (mousePosition.y < resolution.y + 120))
 			{
 				// up
-				keyToMoveTop = returnPressedKey(keyToMoveTop);
-				stringKeyToMoveTop = keyboardKeyAsString(keyToMoveTop);
+				e_keyToMoveTop = returnPressedKey(e_keyToMoveTop);
+				e_stringKeyToMoveTop = keyboardKeyAsString(e_keyToMoveTop);
 			}
 			if ((mousePosition.y > resolution.y + 135) and (mousePosition.y < resolution.y + 165))
 			{
 				// down
-				keyToMoveBot = returnPressedKey(keyToMoveBot);
-				stringKeyToMoveBot = keyboardKeyAsString(keyToMoveBot);
+				e_keyToMoveBot = returnPressedKey(e_keyToMoveBot);
+				e_stringKeyToMoveBot = keyboardKeyAsString(e_keyToMoveBot);
 			}
 			if ((mousePosition.y > resolution.y + 180) and (mousePosition.y < resolution.y + 210))
 			{
 				// left
-				keyToMoveLeft = returnPressedKey(keyToMoveLeft);
-				stringKeyToMoveLeft = keyboardKeyAsString(keyToMoveLeft);
+				e_keyToMoveLeft = returnPressedKey(e_keyToMoveLeft);
+				e_stringKeyToMoveLeft = keyboardKeyAsString(e_keyToMoveLeft);
 			}
 			if ((mousePosition.y > resolution.y + 225) and (mousePosition.y < resolution.y + 255))
 			{
 				// right
-				keyToMoveRight = returnPressedKey(keyToMoveRight);
-				stringKeyToMoveRight = keyboardKeyAsString(keyToMoveRight);
+				e_keyToMoveRight = returnPressedKey(e_keyToMoveRight);
+				e_stringKeyToMoveRight = keyboardKeyAsString(e_keyToMoveRight);
 			}
 			if ((mousePosition.y > resolution.y + 465) and (mousePosition.y < resolution.y + 495))
 			{
 				// fire
-				keyToFire = returnPressedKey(keyToFire);
-				stringKeyToFire = keyboardKeyAsString(keyToFire);
+				e_keyToFire = returnPressedKey(e_keyToFire);
+				e_stringKeyToFire = keyboardKeyAsString(e_keyToFire);
 			}
 		}
 

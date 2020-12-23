@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "level.h"
 
 
 enum MainMenuInput
@@ -8,7 +9,7 @@ enum MainMenuInput
 	MainMenu,			// Отгрыть главное меню 1
 	Settings,			// Открыть настройки 2
 	LevelSelectionMenu,		// Открыть меню выбора уровня 3 (по кнопке StartGame в главном меню)
-	StartGame
+	StartLevel		// Начать игру (по кнопке уровня)ы
 };
 
 
@@ -30,19 +31,21 @@ private:
 
 	int e_ChangeWindow = false;		// флаг на смену окна (меню, игра, настройки)
 
+	std::string e_SelectedLevel = "1";
+
 
 	// Кнопки управления
-	Keyboard::Key keyToMoveRight;
-	Keyboard::Key keyToMoveLeft;
-	Keyboard::Key keyToMoveTop;
-	Keyboard::Key keyToMoveBot;
-	Keyboard::Key keyToFire;
+	Keyboard::Key e_keyToMoveRight;
+	Keyboard::Key e_keyToMoveLeft;
+	Keyboard::Key e_keyToMoveTop;
+	Keyboard::Key e_keyToMoveBot;
+	Keyboard::Key e_keyToFire;
 
-	std::string stringKeyToMoveRight;
-	std::string stringKeyToMoveLeft;
-	std::string stringKeyToMoveTop;
-	std::string stringKeyToMoveBot;
-	std::string stringKeyToFire;
+	std::string e_stringKeyToMoveRight;
+	std::string e_stringKeyToMoveLeft;
+	std::string e_stringKeyToMoveTop;
+	std::string e_stringKeyToMoveBot;
+	std::string e_stringKeyToFire;
 
 
 
@@ -63,6 +66,10 @@ private:
 	void mouseHandlingLevelSelectionMenu(Mouse::Button button, int x, int y);
 
 
+	//Для игрового окна. Определение в файле start_level.cpp
+	void inputGameLevel(Level& level);
+	void updateGameLevel(float dtAsSeconds, Level& level);
+	void drawGameLevel(Level& level);
 
 
 
@@ -86,7 +93,7 @@ public:
 	void mainMenu();	// Окно главного меню
 	void settings();	// Окно настроек
 	void levelSelectionMenu();		// Окно выбора уровня (по кнопке StartGame)
-
+	void startLevel();			// Окно уровня игры (уже сама суть игра)
 
 
 

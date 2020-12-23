@@ -16,17 +16,17 @@ Engine::Engine() : e_UserMainMenuInput(1)
 	e_Window.setVerticalSyncEnabled(true);
 
 
-	keyToFire = Keyboard::Space;
-	keyToMoveBot = Keyboard::S;
-	keyToMoveLeft = Keyboard::A;
-	keyToMoveRight = Keyboard::D;
-	keyToMoveTop = Keyboard::W;
+	e_keyToFire = Keyboard::Space;
+	e_keyToMoveBot = Keyboard::S;
+	e_keyToMoveLeft = Keyboard::A;
+	e_keyToMoveRight = Keyboard::D;
+	e_keyToMoveTop = Keyboard::W;
 
-	stringKeyToMoveRight = "D";
-	stringKeyToMoveLeft = "A";
-	stringKeyToMoveTop = "W";
-	stringKeyToMoveBot = "S";
-	stringKeyToFire = "Space";
+	e_stringKeyToMoveRight = "D";
+	e_stringKeyToMoveLeft = "A";
+	e_stringKeyToMoveTop = "W";
+	e_stringKeyToMoveBot = "S";
+	e_stringKeyToFire = "Space";
 }
 
 
