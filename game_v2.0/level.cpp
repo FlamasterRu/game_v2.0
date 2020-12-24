@@ -5,7 +5,7 @@
 
 
 
-Level::Level(std::string numLevel)
+Level::Level(const std::string& numLevel)
 {
 	std::ifstream iFile;
 	iFile.open("level/" + numLevel + ".txt", std::ios_base::in);
@@ -13,12 +13,31 @@ Level::Level(std::string numLevel)
 	{
 		throw("Can't open file");
 	}
-	iFile >> numberOfHeroes;
 
 
-	hero = new Hero[numberOfHeroes];
+	std::string name;
+
+	iFile >> name >> l_numberOfHeroes;
+	if (name == "hero")
+	{
+		l_hero = new Hero[l_numberOfHeroes];
+	}
+	else
+	{
+		throw ("Error in level file " + numLevel + " in str 1.");
+	}
 
 
+
+	iFile >> name >> l_numberOfEnemiesHarmless;
+	if (name == "enemy_harmless")
+	{
+		l_enemyHarmles = new EnemyHarmless[l_numberOfEnemiesHarmless];
+	}
+	else
+	{
+		throw ("Error in level file " + numLevel + " in str 2.");
+	}
 
 
 	iFile.close();
@@ -32,9 +51,13 @@ Level::Level(std::string numLevel)
 
 Level::~Level()
 {
-	if (hero != nullptr)
+	if (l_hero != nullptr)
 	{
-		delete[] hero;
+		delete[] l_hero;
+	}
+	if (l_enemyHarmles != nullptr)
+	{
+		delete[] l_enemyHarmles;
 	}
 }
 
@@ -50,54 +73,64 @@ void Level::input(sf::Keyboard::Key keyToMoveLeft, sf::Keyboard::Key keyToMoveRi
 	// Обрабатываем нажатие клавиш движения
 	if (Keyboard::isKeyPressed(keyToMoveLeft))
 	{
-		hero[0].moveLeft();
+		l_hero[0].moveLeft();
 	}
 	else
 	{
-		hero[0].stopLeft();
+		l_hero[0].stopLeft();
 	}
 
 	if (Keyboard::isKeyPressed(keyToMoveRight))
 	{
-		hero[0].moveRight();
+		l_hero[0].moveRight();
 	}
 	else
 	{
-		hero[0].stopRight();
+		l_hero[0].stopRight();
 	}
 
 	if (Keyboard::isKeyPressed(keyToMoveTop))
 	{
-		hero[0].moveTop();
+		l_hero[0].moveTop();
 	}
 	else
 	{
-		hero[0].stopTop();
+		l_hero[0].stopTop();
 	}
 
 	if (Keyboard::isKeyPressed(keyToMoveBot))
 	{
-		hero[0].moveBot();
+		l_hero[0].moveBot();
 	}
 	else
 	{
-		hero[0].stopBot();
+		l_hero[0].stopBot();
 	}
 
 }
 
 
 
-void Level::update(float elapsedTime)
+void Level::update(const float elapsedTime)
 {
-	hero[0].update(elapsedTime);
+	l_hero[0].update(elapsedTime);
+
+	for (int i = 0; i < l_numberOfEnemiesHarmless; ++i)
+	{
+		l_enemyHarmles[i].update(elapsedTime);
+	}
 }
 
 
 
 void Level::draw(RenderWindow& window)
 {
-	window.draw(hero[0]);
+	window.draw(l_hero[0]);
+
+	for (int i = 0; i < l_numberOfEnemiesHarmless; ++i)
+	{
+		window.draw(l_enemyHarmles[i]);
+	}
 }
 
 

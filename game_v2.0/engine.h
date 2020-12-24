@@ -3,13 +3,13 @@
 #include "level.h"
 
 
-enum MainMenuInput
+enum class GameWindows
 {
 	Exit,				// Выключить игру 0
 	MainMenu,			// Отгрыть главное меню 1
 	Settings,			// Открыть настройки 2
 	LevelSelectionMenu,		// Открыть меню выбора уровня 3 (по кнопке StartGame в главном меню)
-	StartLevel		// Начать игру (по кнопке уровня)ы
+	StartLevel		// Начать игру (по кнопке уровня)
 };
 
 
@@ -59,6 +59,9 @@ private:
 	//Для настроек. Определение в файле settings.cpp
 	void drawSettings();
 	void inputSettings();
+	Keyboard::Key returnPressedKey(Keyboard::Key key);		// Ввыводит предложение нажать клавишу, в случае отмены возвращает key
+	Keyboard::Key pressedButtom();
+	std::string keyboardKeyAsString(Keyboard::Key key);
 
 
 	//Для меню выбора уровня. Определение в файле level_selection_menu.cpp
@@ -68,16 +71,8 @@ private:
 
 	//Для игрового окна. Определение в файле start_level.cpp
 	void inputGameLevel(Level& level);
-	void updateGameLevel(float dtAsSeconds, Level& level);
+	void updateGameLevel(const float dtAsSeconds, Level& level);
 	void drawGameLevel(Level& level);
-
-
-
-	
-	Keyboard::Key returnPressedKey(Keyboard::Key key);		// Ввыводит предложение нажать клавишу, в случае отмены возвращает key
-	Keyboard::Key pressedButtom();
-	std::string keyboardKeyAsString(Keyboard::Key key);
-
 
 
 
@@ -94,9 +89,6 @@ public:
 	void settings();	// Окно настроек
 	void levelSelectionMenu();		// Окно выбора уровня (по кнопке StartGame)
 	void startLevel();			// Окно уровня игры (уже сама суть игра)
-
-
-
 
 
 

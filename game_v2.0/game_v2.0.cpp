@@ -14,33 +14,50 @@ int main()
     ShowWindow(hWnd, SW_HIDE);
 
 
-    Engine engine;
 
-
-    while (engine.getUserMainMenuInput())
+    try
     {
-        switch (engine.getUserMainMenuInput())
+        Engine engine;
+
+
+        while (engine.getUserMainMenuInput())
         {
-        case Exit:     // Полностью выключить игру
-            break;
-        case MainMenu:     // Открыть главное меню
-            engine.mainMenu();
-            break;
-        case Settings:      // Открыть настройки
-            engine.settings();
-            break;
-        case LevelSelectionMenu:    // Открыть меню выбора уровня
-            engine.levelSelectionMenu();
-            break;
-        case StartLevel:
-            engine.startLevel();
-            break;
-        default:
-            break;
+            switch (engine.getUserMainMenuInput())
+            {
+				case static_cast<int>(GameWindows::Exit) :     // Полностью выключить игру
+					break;
+				case static_cast<int>(GameWindows::MainMenu) :     // Открыть главное меню
+					engine.mainMenu();
+					break;
+				case static_cast<int>(GameWindows::Settings) :      // Открыть настройки
+					engine.settings();
+					break;
+				case static_cast<int>(GameWindows::LevelSelectionMenu) :    // Открыть меню выбора уровня
+					engine.levelSelectionMenu();
+					break;
+				case static_cast<int>(GameWindows::StartLevel) :
+					engine.startLevel();
+					break;
+				default:
+					break;
+            }
+        }
+
+    }
+    catch (const char* exception)
+    {
+        std::string str(exception);
+        sf::Window window(sf::VideoMode(600, 1), str);
+        while (window.isOpen())
+        {
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+            }
         }
     }
-
-
 
 
 

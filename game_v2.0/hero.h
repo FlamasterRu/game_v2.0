@@ -17,7 +17,6 @@ private:
 	Vector2f h_Position;  ////  оординаты левого верхнего угла примоугольника, который описывает фигурку геро€
 
 	Texture h_Texture;
-
 	sf::ConvexShape h_Convex;
 
 
@@ -57,11 +56,11 @@ public:
 	void stopFire();
 
 
-	void update(float elapsedTime);
+	void update(const float elapsedTime);
 
 
 protected:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 

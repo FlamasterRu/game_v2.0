@@ -49,7 +49,7 @@ void Engine::startLevel()
 				if (event.key.code == Keyboard::Escape)
 				{
 					e_ChangeWindow = true;		// Выходим из окна игры
-					e_UserMainMenuInput = MainMenu;	// Переходим в окно главного меню
+					e_UserMainMenuInput = static_cast<int>(GameWindows::MainMenu);	// Переходим в окно главного меню
 				}
 			}
 		}
@@ -82,7 +82,7 @@ void Engine::inputGameLevel(Level& level)
 
 
 
-void Engine::updateGameLevel(float dtAsSeconds, Level& level)
+void Engine::updateGameLevel(const float dtAsSeconds, Level& level)
 {
 	level.update(dtAsSeconds);
 }

@@ -11,7 +11,7 @@ Hero::Hero() :
 	h_LeftPressed(false),
 	h_RightPressed(false),
 	h_TopPressed(false),
-	h_Speed(100)
+	h_Speed(350)
 {
 	// Текстура героя
 	if (!h_Texture.loadFromFile("texture/hero.jpg"))
@@ -21,15 +21,20 @@ Hero::Hero() :
 
 
 
-	h_Convex.setPointCount(4);
-	h_Convex.setPoint(0, sf::Vector2f(0, 0));
-	h_Convex.setPoint(1, sf::Vector2f(0, 50));
-	h_Convex.setPoint(2, sf::Vector2f(50, 50));
-	h_Convex.setPoint(3, sf::Vector2f(50, 0));
+	h_Convex.setPointCount(9);
+	h_Convex.setPoint(0, sf::Vector2f(50, 0));
+	h_Convex.setPoint(1, sf::Vector2f(65, 75));
+	h_Convex.setPoint(2, sf::Vector2f(100, 100));
+	h_Convex.setPoint(3, sf::Vector2f(65, 100));
+	h_Convex.setPoint(4, sf::Vector2f(60, 115));
+	h_Convex.setPoint(5, sf::Vector2f(40, 115));
+	h_Convex.setPoint(6, sf::Vector2f(35, 100));
+	h_Convex.setPoint(7, sf::Vector2f(0, 100));
+	h_Convex.setPoint(8, sf::Vector2f(35, 75));
 
 
 	h_Convex.setTexture(&h_Texture);
-	h_Convex.setFillColor(Color::Yellow);
+	h_Convex.setFillColor(Color(0, 150, 255));
 
 
 }
@@ -105,14 +110,14 @@ void Hero::stopFire()
 
 
 // Двигаем на основании пользовательского ввода в этом кадре, прошедшего времени и скорости
-void Hero::update(float elapsedTime)
+void Hero::update(const float elapsedTime)
 {
 	float maxX = VideoMode::getDesktopMode().width;		// Разрешение экрана
 	float maxY = VideoMode::getDesktopMode().height;
 
 	if (h_RightPressed)
 	{
-		if (h_Position.x + h_Speed * elapsedTime < maxX)    	// Чтобы не выходил за пределы монитора
+		if (h_Position.x + h_Speed * elapsedTime < maxX - h_Convex.getTextureRect().width)    	// Чтобы не выходил за пределы монитора
 		{
 			h_Position.x += h_Speed * elapsedTime;
 		}
@@ -136,7 +141,7 @@ void Hero::update(float elapsedTime)
 
 	if (h_BotPressed)
 	{
-		if (h_Position.y + h_Speed * elapsedTime < maxY)
+		if (h_Position.y + h_Speed * elapsedTime < maxY - h_Convex.getTextureRect().height)
 		{
 			h_Position.y += h_Speed * elapsedTime;
 		}

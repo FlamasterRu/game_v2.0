@@ -30,40 +30,31 @@ void Engine::mainMenu()
 	while (!e_ChangeWindow)
 	{
 		///////////////////////// Обработка событий
-		sf::Event event;
+		Event event;
 		while (e_Window.pollEvent(event))
 		{
 
-			if (event.type == sf::Event::Closed)
+			if (event.type == Event::Closed)
 			{
 				e_Window.close();
 			}
 
-			if (event.type == sf::Event::KeyReleased)
+			if (event.type == Event::KeyReleased)
 			{
 				if (event.key.code == Keyboard::Escape)
 				{
 					e_ChangeWindow = true;		// Выходим из главного меню
-					e_UserMainMenuInput = Exit;	// Закрываем окно
+					e_UserMainMenuInput = static_cast<int>(GameWindows::Exit);	// Закрываем окно
 				}
 			}
 
-			if (event.type == sf::Event::MouseButtonPressed)
+			if (event.type == Event::MouseButtonPressed)
 			{
 				mouseHandlingMainMenu(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y);
 			}
 		}
 		////////////////////////////
 
-
-		try
-		{
-
-		}
-		catch (...)
-		{
-			e_Window.close();
-		}
 	}
 }
 
@@ -75,8 +66,6 @@ void Engine::drawMainMenu()
 {
 	e_Window.clear(Color::White);
 	e_Window.draw(e_BackgroundSprite);
-
-
 	e_Window.display();
 }
 
@@ -88,18 +77,18 @@ void Engine::mouseHandlingMainMenu(Mouse::Button button, int x, int y)
 	{
 		if ((x > 910) and (x < 1030) and (y > 640) and (y < 700))		// (910, 640)   (1030, 700)
 		{
-			e_UserMainMenuInput = Exit;		// нажали на кнопку, значит меняем окно на рабочий стол (закрываем наше)
+			e_UserMainMenuInput = static_cast<int>(GameWindows::Exit);		// нажали на кнопку, значит меняем окно на рабочий стол (закрываем наше)
 			e_ChangeWindow = true;
 			e_Window.close();
 		}
 		if ((x > 850) and (x < 1110) and (y > 410) and (y < 480))		// (850, 410) (1110, 480)
 		{
-			e_UserMainMenuInput = LevelSelectionMenu;		// нажали на кнопку, значит меняем окно
+			e_UserMainMenuInput = static_cast<int>(GameWindows::LevelSelectionMenu);		// нажали на кнопку, значит меняем окно
 			e_ChangeWindow = true;
 		}
 		if ((x > 890) and (x < 1070) and (y > 540) and (y < 600))		// (890, 540)  (1070, 600)
 		{
-			e_UserMainMenuInput = Settings;		// нажали на кнопку, значит меняем окно
+			e_UserMainMenuInput = static_cast<int>(GameWindows::Settings);		// нажали на кнопку, значит меняем окно
 			e_ChangeWindow = true;
 		}
 	}

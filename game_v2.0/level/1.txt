@@ -1,1 +1,2 @@
-1
+hero 1
+enemy_harmless 1

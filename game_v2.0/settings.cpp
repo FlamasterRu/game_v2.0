@@ -29,21 +29,21 @@ void Engine::settings()
 	while (!e_ChangeWindow)
 	{
 		///////////////////////// Обработка событий
-		sf::Event event;
+		Event event;
 		while (e_Window.pollEvent(event))
 		{
 
-			if (event.type == sf::Event::Closed)
+			if (event.type == Event::Closed)
 			{
 				e_Window.close();
 			}
 
-			if (event.type == sf::Event::KeyReleased)
+			if (event.type == Event::KeyReleased)
 			{
 				if (event.key.code == Keyboard::Escape)
 				{
 					e_ChangeWindow = true;		// Выходим из окна настроек
-					e_UserMainMenuInput = MainMenu;	// Переходим в окно главного меню
+					e_UserMainMenuInput = static_cast<int>(GameWindows::MainMenu);	// Переходим в окно главного меню
 				}
 			}
 		}
@@ -238,10 +238,10 @@ Keyboard::Key Engine::returnPressedKey(Keyboard::Key key)
 		{
 			// Задержка должна быть до обработки событий, иначе после задержки escape ещё раз передаётся в event
 			sleep(TIME_DELAY_ESCAPE);
-			sf::Event event;
+			Event event;
 			while (e_Window.pollEvent(event))
 			{
-				if (event.type == sf::Event::Closed)
+				if (event.type == Event::Closed)
 				{
 					e_Window.close();
 				}
