@@ -5,7 +5,7 @@
 
 
 
-Level::Level(const std::string& numLevel)
+Level::Level(const std::string& selectedLevel) : numLevel(selectedLevel)
 {
 	std::ifstream iFile;
 	iFile.open("level/" + numLevel + ".txt", std::ios_base::in);
@@ -68,7 +68,7 @@ Level::~Level()
 
 
 
-void Level::input(sf::Keyboard::Key keyToMoveLeft, sf::Keyboard::Key keyToMoveRight, sf::Keyboard::Key keyToMoveTop, sf::Keyboard::Key keyToMoveBot)
+void Level::input(Keyboard::Key keyToMoveLeft, Keyboard::Key keyToMoveRight, Keyboard::Key keyToMoveTop, Keyboard::Key keyToMoveBot, Keyboard::Key keyToFire)
 {
 	// Обрабатываем нажатие клавиш движения
 	if (Keyboard::isKeyPressed(keyToMoveLeft))
@@ -107,6 +107,15 @@ void Level::input(sf::Keyboard::Key keyToMoveLeft, sf::Keyboard::Key keyToMoveRi
 		l_hero[0].stopBot();
 	}
 
+	if (Keyboard::isKeyPressed(keyToFire))
+	{
+		l_hero[0].goFire();
+	}
+	else
+	{
+		l_hero[0].stopFire();
+	}
+
 }
 
 
@@ -132,6 +141,65 @@ void Level::draw(RenderWindow& window)
 		window.draw(l_enemyHarmles[i]);
 	}
 }
+
+
+
+
+void Level::placeLevel()
+{
+	if (numLevel == "1")		//разместить уровень 1
+	{
+		l_hero[0].setPosition((VideoMode::getDesktopMode().width - l_hero[0].getGlobalBounds().width) / 2, VideoMode::getDesktopMode().height * 0.8f);
+
+		int k = 0;
+		unsigned int height = VideoMode::getDesktopMode().height / 10;
+		for (int i = 0; i < 3; ++i)
+		{
+			int maxLeftPlace = VideoMode::getDesktopMode().width * 0.1;
+			int maxRightPlace = VideoMode::getDesktopMode().width * 0.9 - l_enemyHarmles[0].getGlobalBounds().width;
+			unsigned int width = (VideoMode::getDesktopMode().width - 11.5 * l_enemyHarmles[0].getGlobalBounds().width) / 2;
+			for (int j = 0; j < 8; ++j)
+			{
+				l_enemyHarmles[k].setMaxLeftPlace(maxLeftPlace);
+				maxLeftPlace += l_enemyHarmles[0].getGlobalBounds().width * 1.5;
+
+				l_enemyHarmles[l_numberOfEnemiesHarmless - 1 - k].setMaxRightPlace(maxRightPlace);
+				maxRightPlace -= l_enemyHarmles[0].getGlobalBounds().width * 1.5;
+
+				l_enemyHarmles[k].setPosition(width, height);
+				width += l_enemyHarmles[0].getGlobalBounds().width * 1.5;
+				++k;
+			}
+			height += l_enemyHarmles[0].getGlobalBounds().height * 1.5;
+		}
+	}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

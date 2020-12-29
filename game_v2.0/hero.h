@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "laser.h"
 
 
 
@@ -11,16 +12,19 @@ using namespace sf;
 
 
 
-class Hero : public sf::Drawable
+class Hero : public Drawable
 {
 private:
 	Vector2f h_Position;  ////  оординаты левого верхнего угла примоугольника, который описывает фигурку геро€
 
 	Texture h_Texture;
-	sf::ConvexShape h_Convex;
-
+	ConvexShape h_Convex;
 
 	int h_Speed;
+
+	Laser* h_LaserBuff[100];
+	int h_LaserBuffSize;
+	float h_LastFire;
 
 
 
@@ -57,6 +61,9 @@ public:
 
 
 	void update(const float elapsedTime);
+	void setPosition(const float x, const float y);
+	FloatRect getGlobalBounds();
+	FloatRect getLocalBounds();
 
 
 protected:

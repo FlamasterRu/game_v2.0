@@ -29,7 +29,7 @@ void Engine::startLevel()
 
 
 	Level level(e_SelectedLevel);
-
+	level.placeLevel();
 
 	Clock clock;
 	while (!e_ChangeWindow)
@@ -76,7 +76,7 @@ void Engine::startLevel()
 
 void Engine::inputGameLevel(Level& level)
 {
-	level.input(e_keyToMoveLeft, e_keyToMoveRight, e_keyToMoveTop, e_keyToMoveBot);
+	level.input(e_keyToMoveLeft, e_keyToMoveRight, e_keyToMoveTop, e_keyToMoveBot, e_keyToFire);
 }
 
 

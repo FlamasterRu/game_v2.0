@@ -4,14 +4,16 @@
 
 
 
-Hero::Hero() : 
+Hero::Hero() :
 	h_Position(1000.f, 500.f),
 	h_BotPressed(false),
-	h_GoFire(false), 
+	h_GoFire(false),
 	h_LeftPressed(false),
 	h_RightPressed(false),
 	h_TopPressed(false),
-	h_Speed(350)
+	h_Speed(350),
+	h_LastFire(1000.f),
+	h_LaserBuffSize(0)
 {
 	// Текстура героя
 	if (!h_Texture.loadFromFile("texture/hero.jpg"))
@@ -19,10 +21,10 @@ Hero::Hero() :
 		throw("Can't load texture");
 	}
 
+	
 
-
-	h_Convex.setPointCount(9);
-	h_Convex.setPoint(0, sf::Vector2f(50, 0));
+	h_Convex.setPointCount(10);
+	h_Convex.setPoint(0, sf::Vector2f(52, 0));
 	h_Convex.setPoint(1, sf::Vector2f(65, 75));
 	h_Convex.setPoint(2, sf::Vector2f(100, 100));
 	h_Convex.setPoint(3, sf::Vector2f(65, 100));
@@ -31,11 +33,11 @@ Hero::Hero() :
 	h_Convex.setPoint(6, sf::Vector2f(35, 100));
 	h_Convex.setPoint(7, sf::Vector2f(0, 100));
 	h_Convex.setPoint(8, sf::Vector2f(35, 75));
+	h_Convex.setPoint(9, sf::Vector2f(48, 0));
 
 
 	h_Convex.setTexture(&h_Texture);
-	h_Convex.setFillColor(Color(0, 150, 255));
-
+	h_Convex.setFillColor(Color(0, 110, 255));
 
 }
 
@@ -148,6 +150,26 @@ void Hero::update(const float elapsedTime)
 	}
 
 
+	h_LastFire += elapsedTime;
+	if (h_GoFire)
+	{
+		if (h_LastFire > 1.0)    /// считает, сколько секунд прошло с последнего выстрела, чтобы слишком часто не стрелять
+		{
+			Vector2f pointOfFire(h_Convex.getPosition());
+			pointOfFire.x += h_Convex.getGlobalBounds().width / 2.f  - 4.f;
+			pointOfFire.y -= 10.f;
+			h_LaserBuff[h_LaserBuffSize] = new Laser(pointOfFire);
+			++h_LaserBuffSize;
+			h_LastFire = 0.f;
+		}
+	}
+
+	for (int i = 0; i < h_LaserBuffSize; ++i)
+	{
+		h_LaserBuff[i]->update(elapsedTime);
+	}
+
+
 	// перемещаем фигуру героя
 	h_Convex.setPosition(h_Position);
 }
@@ -161,6 +183,10 @@ void Hero::update(const float elapsedTime)
 
 void Hero::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	for (int i = 0; i < h_LaserBuffSize; ++i)
+	{
+		target.draw(*(h_LaserBuff[i]));
+	}
 	target.draw(h_Convex, states);
 }
 
@@ -170,11 +196,24 @@ void Hero::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 
 
+void Hero::setPosition(const float x, const float y)
+{
+	h_Position.x = x;
+	h_Position.y = y;
+}
 
 
 
+FloatRect Hero::getGlobalBounds()
+{
+	return h_Convex.getGlobalBounds();
+}
 
 
+FloatRect Hero::getLocalBounds()
+{
+	return h_Convex.getLocalBounds();
+}
 
 
 

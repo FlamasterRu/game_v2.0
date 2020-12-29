@@ -18,6 +18,7 @@ public:
 
 	virtual void update(const float elapsedTime) = 0;
 	virtual void setPosition(const Vector2f& position) = 0;
+	virtual FloatRect getGlobalBounds() = 0;
 
 
 protected:
@@ -37,6 +38,11 @@ private:
 	Texture e_Texture;
 	sf::ConvexShape e_Convex;
 
+	int e_MaxLeftPlace;
+	int e_MaxRightPlace;
+
+	int e_SpeedX;
+	int e_SpeedY;
 
 
 public:
@@ -45,8 +51,14 @@ public:
 
 
 	void update(const float elapsedTime);
-	void setPosition(const Vector2f& position);
 
+	void setPosition(const Vector2f& position);
+	void setPosition(const float x, const float y);
+
+	FloatRect getGlobalBounds();
+	FloatRect getLocalBounds();
+	void setMaxLeftPlace(const int x);
+	void setMaxRightPlace(const int x);
 
 
 protected:
