@@ -29,7 +29,6 @@ private:
 
 public:
 
-	Laser(const Vector2f& position, const Color color);
 	Laser(const Vector2f& position);
 
 	void update(const float elapsedTime);

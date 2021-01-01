@@ -73,6 +73,7 @@ private:
 	void inputGameLevel(Level& level);
 	void updateGameLevel(const float dtAsSeconds, Level& level);
 	void drawGameLevel(Level& level);
+	void drawGameOver(const int gameResult, Level& level);
 
 
 

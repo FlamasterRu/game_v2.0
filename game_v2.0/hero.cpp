@@ -39,8 +39,25 @@ Hero::Hero() :
 	h_Convex.setTexture(&h_Texture);
 	h_Convex.setFillColor(Color(0, 110, 255));
 
+
+	for (int i = 0; i < 100; ++i)
+	{
+		h_LaserBuff[i] = nullptr;
+	}
 }
 
+
+
+Hero::~Hero()
+{
+	for (int i = 0; i < 100; ++i)
+	{
+		if (h_LaserBuff[i] != nullptr)
+		{
+			delete h_LaserBuff[i];
+		}
+	}
+}
 
 
 
@@ -153,20 +170,35 @@ void Hero::update(const float elapsedTime)
 	h_LastFire += elapsedTime;
 	if (h_GoFire)
 	{
-		if (h_LastFire > 1.0)    /// считает, сколько секунд прошло с последнего выстрела, чтобы слишком часто не стрелять
+		if (h_LastFire > 1.f)    /// считает, сколько секунд прошло с последнего выстрела, чтобы слишком часто не стрелять
 		{
 			Vector2f pointOfFire(h_Convex.getPosition());
 			pointOfFire.x += h_Convex.getGlobalBounds().width / 2.f  - 4.f;
 			pointOfFire.y -= 10.f;
-			h_LaserBuff[h_LaserBuffSize] = new Laser(pointOfFire);
-			++h_LaserBuffSize;
+
+			int i = 0;
+			while (h_LaserBuff[i] != nullptr)
+			{
+				++i;
+			}
+			if (i >= 100)
+			{
+				throw("Laser buffer overload");
+			}
+			else
+			{
+				h_LaserBuff[i] = new Laser(pointOfFire);
+			}
 			h_LastFire = 0.f;
 		}
 	}
 
-	for (int i = 0; i < h_LaserBuffSize; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
-		h_LaserBuff[i]->update(elapsedTime);
+		if (h_LaserBuff[i] != nullptr)
+		{
+			h_LaserBuff[i]->update(elapsedTime);
+		}
 	}
 
 
@@ -183,9 +215,12 @@ void Hero::update(const float elapsedTime)
 
 void Hero::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (int i = 0; i < h_LaserBuffSize; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
-		target.draw(*(h_LaserBuff[i]));
+		if (h_LaserBuff[i] != nullptr)
+		{
+			target.draw(*(h_LaserBuff[i]));
+		}
 	}
 	target.draw(h_Convex, states);
 }
@@ -214,6 +249,69 @@ FloatRect Hero::getLocalBounds()
 {
 	return h_Convex.getLocalBounds();
 }
+
+
+
+
+
+FloatRect Hero::getLaserGlobalBounds(const int i)
+{
+	if (h_LaserBuff[i] != nullptr)
+	{
+		return h_LaserBuff[i]->getGlobalBounds();
+	}
+	else
+	{
+		return FloatRect();
+	}
+}
+
+
+
+bool Hero::deleteLaser(const int i)
+{
+	if (h_LaserBuff[i] != nullptr)
+	{
+		delete h_LaserBuff[i];
+		h_LaserBuff[i] = nullptr;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

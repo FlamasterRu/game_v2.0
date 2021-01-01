@@ -224,7 +224,7 @@ Keyboard::Key Engine::returnPressedKey(Keyboard::Key key)
 	}
 	Text text("Press Key", font);
 	text.setFillColor(Color::White);
-	text.setPosition(VideoMode::getDesktopMode().width / 4, VideoMode::getDesktopMode().height * 0.9);
+	text.setPosition(VideoMode::getDesktopMode().width / 4.f, VideoMode::getDesktopMode().height * 0.9f);
 
 
 	e_Window.draw(text);

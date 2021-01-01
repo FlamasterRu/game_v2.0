@@ -40,6 +40,7 @@ private:
 public:
 
 	Hero();
+	~Hero();
 
 	// Для движения
 	void moveLeft();
@@ -62,8 +63,12 @@ public:
 
 	void update(const float elapsedTime);
 	void setPosition(const float x, const float y);
+
 	FloatRect getGlobalBounds();
 	FloatRect getLocalBounds();
+	FloatRect getLaserGlobalBounds(const int i);
+
+	bool deleteLaser(const int i);
 
 
 protected:

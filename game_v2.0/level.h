@@ -18,12 +18,11 @@ private:
 	Hero* l_hero = nullptr;
 
 	unsigned int l_numberOfEnemiesHarmless = 0;
-	EnemyHarmless* l_enemyHarmles = nullptr;
+	EnemyHarmless** l_enemyHarmles = nullptr;
 
 
-
-	
-
+	int l_RemainingEnemies;
+	bool l_IsWin = true;
 
 
 
@@ -39,7 +38,8 @@ public:
 	void draw(RenderWindow& window);
 	void input(Keyboard::Key keyToMoveLeft, Keyboard::Key keyToMoveRight, Keyboard::Key keyToMoveTop, Keyboard::Key keyToMoveBot, Keyboard::Key keyToFire);
 	void placeLevel();
-
+	int check();
+	
 
 
 

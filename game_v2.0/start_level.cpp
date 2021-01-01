@@ -32,6 +32,9 @@ void Engine::startLevel()
 	level.placeLevel();
 
 	Clock clock;
+	Time dt;
+	float dtAsSeconds;
+	int gameResult = 0;
 	while (!e_ChangeWindow)
 	{
 		///////////////////////// Обработка событий
@@ -55,17 +58,20 @@ void Engine::startLevel()
 		}
 		////////////////////////////
 
-		Time dt = clock.restart();
-		float dtAsSeconds = dt.asSeconds();
-		try
+		if (gameResult == 0)
 		{
 			inputGameLevel(level);
+
+			dt = clock.restart();
+			dtAsSeconds = dt.asSeconds();
 			updateGameLevel(dtAsSeconds, level);
+
 			drawGameLevel(level);
+			gameResult = level.check();
 		}
-		catch (...)
+		else
 		{
-			e_Window.close();
+			drawGameOver(gameResult, level);
 		}
 	}
 }
@@ -107,7 +113,65 @@ void Engine::drawGameLevel(Level& level)
 
 
 
+void Engine::drawGameOver(const int gameResult, Level& level)
+{
+	e_Window.clear(Color::White);
+	e_Window.draw(e_BackgroundSprite);
 
+	Rect<float> temp;
+	unsigned int PositionX, PositionY = VideoMode::getDesktopMode().height, resolution = VideoMode::getDesktopMode().width;
+	Color SpaseBlue(63, 72, 204);
+
+
+	Font font;
+	if (!font.loadFromFile("font/game_font.ttf"))
+	{
+		throw("Can't open font");
+	}
+
+	std::string str;
+	if (gameResult == 1)
+	{
+		str = "You Win!";
+	}
+	else
+	{
+		str = "You Lose";
+	}
+
+
+	Text text1("GAME OVER", font);
+	text1.setFillColor(SpaseBlue);
+	text1.setStyle(Text::Bold);
+	text1.setCharacterSize(80);
+	text1.setOutlineThickness(5);
+	temp = text1.getGlobalBounds();
+	PositionX = (resolution - temp.width) / 2.0f;
+	text1.setPosition(PositionX, PositionY / 6.0f);
+
+
+	Text text2(str, font);
+	text2.setFillColor(Color::Red);
+	text2.setCharacterSize(50);
+	text2.setOutlineThickness(5);
+	temp = text2.getGlobalBounds();
+	PositionX = (resolution - temp.width) / 2.0f;
+	text2.setPosition(PositionX, PositionY / 2.0f);
+
+
+	Text text3("Press Escape", font);
+	text3.setFillColor(Color::White);
+	text3.setPosition(VideoMode::getDesktopMode().width / 10.f, VideoMode::getDesktopMode().height * 0.9f);
+
+
+	level.draw(e_Window);
+	e_Window.draw(text1);
+	e_Window.draw(text2);
+	e_Window.draw(text3);
+
+
+	e_Window.display();
+}
 
 
 

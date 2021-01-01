@@ -9,7 +9,7 @@
 
 Laser::Laser(const Vector2f& position) :
 	l_SpeedX(0),
-	l_SpeedY(-100)
+	l_SpeedY(-350)
 {
 	if (!l_Texture.loadFromFile("texture/laser.jpg"))
 	{

@@ -14,8 +14,8 @@
 EnemyHarmless::EnemyHarmless() :
 	e_MaxLeftPlace(0),
 	e_MaxRightPlace(VideoMode::getDesktopMode().width),
-	e_SpeedX(0),
-	e_SpeedY(0)
+	e_SpeedX(100),
+	e_SpeedY(10)
 {
 	if (!e_Texture.loadFromFile("texture/enemy_harmless.jpg"))
 	{
