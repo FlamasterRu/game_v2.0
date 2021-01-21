@@ -50,15 +50,9 @@ void Engine::settings()
 		////////////////////////////
 
 
-		try
-		{
-			drawSettings();
-			inputSettings();
-		}
-		catch (...)
-		{
-			e_Window.close();
-		}
+		drawSettings();
+		inputSettings();
+
 	}
 }
 
@@ -91,20 +85,22 @@ void Engine::drawSettings()
 	// Надписи в настройках
 	Text text1("Setting", font);
 	text1.setFillColor(SpaseBlue);
+	text1.setStyle(Text::Bold);
+	text1.setCharacterSize(38);
 	temp = text1.getGlobalBounds();
 	PositionX = (resolution - temp.width) / 2.0;
 	text1.setPosition(PositionX, PositionY / 10.0);
-	text1.setStyle(Text::Bold);
-	text1.setCharacterSize(38);
+
 
 	Text text2("Moving", font);
 	text2.setFillColor(SpaseBlue);
+	text2.setStyle(Text::Bold);
+	text2.setCharacterSize(34);
 	PositionX = resolution / 4.0;
 	PositionY /= 5.0;
 	text2.setPosition(PositionX, PositionY);
 	PositionY += text2.getCharacterSize() * 3.0;
-	text2.setStyle(Text::Bold);
-	text2.setCharacterSize(34);
+
 
 	Text text3("Up: " + e_stringKeyToMoveTop, font);
 	text3.setFillColor(SpaseBlue);
@@ -129,9 +125,10 @@ void Engine::drawSettings()
 	Text text7("Fire", font);
 	text7.setFillColor(SpaseBlue);
 	text7.setPosition(PositionX, PositionY);
-	PositionY += text7.getCharacterSize() * 3.0;
 	text7.setStyle(Text::Bold);
 	text7.setCharacterSize(34);
+	PositionY += text7.getCharacterSize() * 3.0;
+
 
 	Text text8("Laser fire: " + e_stringKeyToFire, font);
 	text8.setFillColor(SpaseBlue);
@@ -160,38 +157,37 @@ void Engine::inputSettings()
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
 		Vector2i resolution;
-		bool flag = 1;
 		resolution.x = VideoMode::getDesktopMode().width;
 		resolution.y = VideoMode::getDesktopMode().height / 5;
 		Vector2i mousePosition(Mouse::getPosition());
 
-		if ((mousePosition.x > resolution.x / 4) and (mousePosition.x < resolution.x / 4 + 200))		// проверка на нажатие в зонах
+		if ((mousePosition.x > 470) and (mousePosition.x < 640))		// проверка на нажатие в зонах
 		{
-			if ((mousePosition.y > resolution.y + 90) and (mousePosition.y < resolution.y + 120))
+			if ((mousePosition.y > 320) and (mousePosition.y < 358))
 			{
 				// up
 				e_keyToMoveTop = returnPressedKey(e_keyToMoveTop);
 				e_stringKeyToMoveTop = keyboardKeyAsString(e_keyToMoveTop);
 			}
-			if ((mousePosition.y > resolution.y + 135) and (mousePosition.y < resolution.y + 165))
+			if ((mousePosition.y > 365) and (mousePosition.y < 403))
 			{
 				// down
 				e_keyToMoveBot = returnPressedKey(e_keyToMoveBot);
 				e_stringKeyToMoveBot = keyboardKeyAsString(e_keyToMoveBot);
 			}
-			if ((mousePosition.y > resolution.y + 180) and (mousePosition.y < resolution.y + 210))
+			if ((mousePosition.y > 410) and (mousePosition.y < 442))
 			{
 				// left
 				e_keyToMoveLeft = returnPressedKey(e_keyToMoveLeft);
 				e_stringKeyToMoveLeft = keyboardKeyAsString(e_keyToMoveLeft);
 			}
-			if ((mousePosition.y > resolution.y + 225) and (mousePosition.y < resolution.y + 255))
+			if ((mousePosition.y > 455) and (mousePosition.y < 488))
 			{
 				// right
 				e_keyToMoveRight = returnPressedKey(e_keyToMoveRight);
 				e_stringKeyToMoveRight = keyboardKeyAsString(e_keyToMoveRight);
 			}
-			if ((mousePosition.y > resolution.y + 465) and (mousePosition.y < resolution.y + 495))
+			if ((mousePosition.y > 705) and (mousePosition.y < 742))
 			{
 				// fire
 				e_keyToFire = returnPressedKey(e_keyToFire);
@@ -230,25 +226,27 @@ Keyboard::Key Engine::returnPressedKey(Keyboard::Key key)
 	e_Window.draw(text);
 	e_Window.display();
 
-	// Ждем пока не нажмут какую-нибудь из клавиш или escape
+
 	while (temp == Keyboard::Key::Unknown)
 	{
-		temp = pressedButtom();
-		if (temp == Keyboard::Key::Escape)
+		Event event;
+		while (e_Window.pollEvent(event))
 		{
-			// Задержка должна быть до обработки событий, иначе после задержки escape ещё раз передаётся в event
-			sleep(TIME_DELAY_ESCAPE);
-			Event event;
-			while (e_Window.pollEvent(event))
+			if (event.type == Event::Closed)
 			{
-				if (event.type == Event::Closed)
-				{
-					e_Window.close();
-				}
+				e_Window.close();
 			}
-			return key;
+			if (event.type == Event::KeyReleased)
+			{
+				if (event.key.code == Keyboard::Key::Escape)
+				{
+					return key;
+				}
+				temp = event.key.code;
+			}
 		}
 	}
+
 	return temp;
 
 }
@@ -257,252 +255,6 @@ Keyboard::Key Engine::returnPressedKey(Keyboard::Key key)
 
 
 
-
-
-
-Keyboard::Key Engine::pressedButtom()
-{
-	if (Keyboard::isKeyPressed(Keyboard::Key::Q))
-	{
-		return Keyboard::Key::Q;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::W))
-	{
-		return Keyboard::Key::W;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::E))
-	{
-		return Keyboard::Key::E;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::R))
-	{
-		return Keyboard::Key::R;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::T))
-	{
-		return Keyboard::Key::T;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Y))
-	{
-		return Keyboard::Key::Y;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::U))
-	{
-		return Keyboard::Key::U;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::I))
-	{
-		return Keyboard::Key::I;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::O))
-	{
-		return Keyboard::Key::O;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::P))
-	{
-		return Keyboard::Key::P;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::A))
-	{
-		return Keyboard::Key::A;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::S))
-	{
-		return Keyboard::Key::S;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::D))
-	{
-		return Keyboard::Key::D;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::F))
-	{
-		return Keyboard::Key::F;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::G))
-	{
-		return Keyboard::Key::G;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::H))
-	{
-		return Keyboard::Key::H;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::J))
-	{
-		return Keyboard::Key::J;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::K))
-	{
-		return Keyboard::Key::K;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::L))
-	{
-		return Keyboard::Key::L;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Z))
-	{
-		return Keyboard::Key::Z;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::X))
-	{
-		return Keyboard::Key::X;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::C))
-	{
-		return Keyboard::Key::C;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::V))
-	{
-		return Keyboard::Key::V;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::B))
-	{
-		return Keyboard::Key::B;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::N))
-	{
-		return Keyboard::Key::N;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::M))
-	{
-		return Keyboard::Key::M;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num1))
-	{
-		return Keyboard::Key::Num1;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num2))
-	{
-		return Keyboard::Key::Num2;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num3))
-	{
-		return Keyboard::Key::Num3;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num4))
-	{
-		return Keyboard::Key::Num4;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num5))
-	{
-		return Keyboard::Key::Num5;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num6))
-	{
-		return Keyboard::Key::Num6;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num7))
-	{
-		return Keyboard::Key::Num7;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num8))
-	{
-		return Keyboard::Key::Num8;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num9))
-	{
-		return Keyboard::Key::Num9;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Num0))
-	{
-		return Keyboard::Key::Num0;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad1))
-	{
-		return Keyboard::Key::Numpad1;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad2))
-	{
-		return Keyboard::Key::Numpad2;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad3))
-	{
-		return Keyboard::Key::Numpad3;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad4))
-	{
-		return Keyboard::Key::Numpad4;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad5))
-	{
-		return Keyboard::Key::Numpad5;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad6))
-	{
-		return Keyboard::Key::Numpad6;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad7))
-	{
-		return Keyboard::Key::Numpad7;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad8))
-	{
-		return Keyboard::Key::Numpad8;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad9))
-	{
-		return Keyboard::Key::Numpad9;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Numpad0))
-	{
-		return Keyboard::Key::Numpad0;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Down))
-	{
-		return Keyboard::Key::Down;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Left))
-	{
-		return Keyboard::Key::Left;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Right))
-	{
-		return Keyboard::Key::Right;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Up))
-	{
-		return Keyboard::Key::Up;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Tab))
-	{
-		return Keyboard::Key::Tab;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::LShift))
-	{
-		return Keyboard::Key::LShift;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::RShift))
-	{
-		return Keyboard::Key::RShift;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::LControl))
-	{
-		return Keyboard::Key::LControl;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::RControl))
-	{
-		return Keyboard::Key::RControl;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::LAlt))
-	{
-		return Keyboard::Key::LAlt;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::RAlt))
-	{
-		return Keyboard::Key::RAlt;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Space))
-	{
-		return Keyboard::Key::Space;
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::Key::Escape))
-	{
-		return Keyboard::Key::Escape;
-	}
-	else
-	{
-		return Keyboard::Key::Unknown;
-	}
-}
 
 
 std::string Engine::keyboardKeyAsString(Keyboard::Key key)

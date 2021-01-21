@@ -23,17 +23,16 @@ void Engine::startLevel()
 	}
 	e_BackgroundSprite.setTexture(e_BackgroundTexture);
 
-	// Вsключаем курсор
+	// Выключаем курсор
 	e_Window.setMouseCursorVisible(false);
 
 
 
 	Level level(e_SelectedLevel);
-	level.placeLevel();
+
 
 	Clock clock;
 	Time dt;
-	float dtAsSeconds;
 	int gameResult = 0;
 	while (!e_ChangeWindow)
 	{
@@ -63,8 +62,7 @@ void Engine::startLevel()
 			inputGameLevel(level);
 
 			dt = clock.restart();
-			dtAsSeconds = dt.asSeconds();
-			updateGameLevel(dtAsSeconds, level);
+			updateGameLevel(dt.asSeconds(), level);
 
 			drawGameLevel(level);
 			gameResult = level.check();
@@ -115,8 +113,6 @@ void Engine::drawGameLevel(Level& level)
 
 void Engine::drawGameOver(const int gameResult, Level& level)
 {
-	e_Window.clear(Color::White);
-	e_Window.draw(e_BackgroundSprite);
 
 	Rect<float> temp;
 	unsigned int PositionX, PositionY = VideoMode::getDesktopMode().height, resolution = VideoMode::getDesktopMode().width;
@@ -164,7 +160,6 @@ void Engine::drawGameOver(const int gameResult, Level& level)
 	text3.setPosition(VideoMode::getDesktopMode().width / 10.f, VideoMode::getDesktopMode().height * 0.9f);
 
 
-	level.draw(e_Window);
 	e_Window.draw(text1);
 	e_Window.draw(text2);
 	e_Window.draw(text3);

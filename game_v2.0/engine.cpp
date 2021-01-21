@@ -7,7 +7,7 @@
 
 
 
-Engine::Engine() : e_UserMainMenuInput(1)
+Engine::Engine() : e_UserMainMenuInput(static_cast<int>(GameWindows::MainMenu))
 {
 	ContextSettings setting;
 	setting.antialiasingLevel = 8;
@@ -28,6 +28,13 @@ Engine::Engine() : e_UserMainMenuInput(1)
 	e_stringKeyToMoveBot = "S";
 	e_stringKeyToFire = "Space";
 }
+
+
+Engine::~Engine()
+{
+	e_Window.close();
+}
+
 
 
 

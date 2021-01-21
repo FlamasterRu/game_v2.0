@@ -41,6 +41,7 @@ public:
 
 	Hero();
 	~Hero();
+	Hero(const Hero& hero) = delete;
 
 	// Для движения
 	void moveLeft();

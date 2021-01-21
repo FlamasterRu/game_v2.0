@@ -12,8 +12,6 @@
 
 
 EnemyHarmless::EnemyHarmless() :
-	e_MaxLeftPlace(0),
-	e_MaxRightPlace(VideoMode::getDesktopMode().width),
 	e_SpeedX(100),
 	e_SpeedY(10)
 {
@@ -61,11 +59,6 @@ void EnemyHarmless::update(const float elapsedTime)
 	position.x += e_SpeedX * elapsedTime;
 	position.y += e_SpeedY * elapsedTime;
 
-	if ((position.x <= e_MaxLeftPlace) or (position.x >= e_MaxRightPlace))
-	{
-		e_SpeedX *= -1;
-	}
-
 	e_Convex.setPosition(position);
 }
 
@@ -99,19 +92,14 @@ FloatRect EnemyHarmless::getLocalBounds()
 
 
 
-void EnemyHarmless::setMaxLeftPlace(const int x)
+
+
+
+
+void EnemyHarmless::turnAround()
 {
-	e_MaxLeftPlace = x;
+	e_SpeedX *= -1;
 }
-
-void EnemyHarmless::setMaxRightPlace(const int x)
-{
-	e_MaxRightPlace = x;
-}
-
-
-
-
 
 
 

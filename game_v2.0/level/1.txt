@@ -1,2 +1,4 @@
-hero 1
-enemy_harmless 24
+3
+9 h h h h h h h h h
+8 h h h h h h h h
+7 h h h h h h h 

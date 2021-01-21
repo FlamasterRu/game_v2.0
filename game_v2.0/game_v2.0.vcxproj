@@ -166,6 +166,7 @@
     <ClInclude Include="hero.h" />
     <ClInclude Include="laser.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="matrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

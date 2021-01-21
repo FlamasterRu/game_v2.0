@@ -53,8 +53,6 @@ void Engine::mainMenu()
 				mouseHandlingMainMenu(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y);
 			}
 		}
-		////////////////////////////
-
 	}
 }
 
@@ -79,7 +77,6 @@ void Engine::mouseHandlingMainMenu(Mouse::Button button, int x, int y)
 		{
 			e_UserMainMenuInput = static_cast<int>(GameWindows::Exit);		// нажали на кнопку, значит меняем окно на рабочий стол (закрываем наше)
 			e_ChangeWindow = true;
-			e_Window.close();
 		}
 		if ((x > 850) and (x < 1110) and (y > 410) and (y < 480))		// (850, 410) (1110, 480)
 		{

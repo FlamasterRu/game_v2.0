@@ -5,15 +5,15 @@
 
 enum class GameWindows
 {
-	Exit,				// Выключить игру 0
-	MainMenu,			// Отгрыть главное меню 1
-	Settings,			// Открыть настройки 2
-	LevelSelectionMenu,		// Открыть меню выбора уровня 3 (по кнопке StartGame в главном меню)
-	StartLevel		// Начать игру (по кнопке уровня)
+	Exit,				// Exit game 0
+	MainMenu,			// Open main menu 1
+	Settings,			// Open settings 2
+	LevelSelectionMenu,		// Open the level selection menu 3 (button "StartGame" in main menu)
+	StartLevel		// Start game level (button "Level*")
 };
 
 
-const sf::Time TIME_DELAY_ESCAPE = sf::seconds(0.37f);   // чтобы сразу не выключить игру, так как пользователь не моментально отпускает кнопку Esc
+const sf::Time TIME_DELAY_ESCAPE = sf::seconds(0.37f);   // not to immediately turn off the game, since the user does not immediately release the Esc button
 
 using namespace sf;
 
@@ -21,7 +21,7 @@ using namespace sf;
 class Engine
 {
 private:
-
+	////////////////////
 	RenderWindow e_Window;
 
 	Sprite e_BackgroundSprite;
@@ -31,7 +31,9 @@ private:
 
 	int e_ChangeWindow = false;		// флаг на смену окна (меню, игра, настройки)
 
-	std::string e_SelectedLevel = "1";
+	std::string e_SelectedLevel = "";
+	////////////////////
+
 
 
 	// Кнопки управления
@@ -60,7 +62,6 @@ private:
 	void drawSettings();
 	void inputSettings();
 	Keyboard::Key returnPressedKey(Keyboard::Key key);		// Ввыводит предложение нажать клавишу, в случае отмены возвращает key
-	Keyboard::Key pressedButtom();
 	std::string keyboardKeyAsString(Keyboard::Key key);
 
 
@@ -81,6 +82,8 @@ private:
 public:
 
 	Engine();
+	~Engine();
+	Engine(const Engine& engine) = delete;
 
 	int getUserMainMenuInput() const;
 

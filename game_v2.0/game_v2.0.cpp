@@ -2,6 +2,7 @@
 #include <Windows.h>
 
 
+
 #define 	SFML_DEFINE_DISCRETE_GPU_PREFERENCE
 
 
@@ -10,7 +11,7 @@
 
 int main()
 {
-    HWND hWnd = GetConsoleWindow();		// чтобы не было консоли
+    HWND hWnd = GetConsoleWindow();     // Hide console
     ShowWindow(hWnd, SW_HIDE);
 
 
@@ -24,18 +25,18 @@ int main()
         {
             switch (engine.getUserMainMenuInput())
             {
-				case static_cast<int>(GameWindows::Exit) :     // Полностью выключить игру
+				case static_cast<int>(GameWindows::Exit) :     // Turn off the game completely
 					break;
-				case static_cast<int>(GameWindows::MainMenu) :     // Открыть главное меню
+				case static_cast<int>(GameWindows::MainMenu) :     // Open main menu
 					engine.mainMenu();
 					break;
-				case static_cast<int>(GameWindows::Settings) :      // Открыть настройки
+				case static_cast<int>(GameWindows::Settings) :      // Open settings
 					engine.settings();
 					break;
-				case static_cast<int>(GameWindows::LevelSelectionMenu) :    // Открыть меню выбора уровня
+				case static_cast<int>(GameWindows::LevelSelectionMenu) :    // Open the level selection menu
 					engine.levelSelectionMenu();
 					break;
-				case static_cast<int>(GameWindows::StartLevel) :
+				case static_cast<int>(GameWindows::StartLevel) :        // Start selected level
 					engine.startLevel();
 					break;
 				default:
@@ -47,13 +48,13 @@ int main()
     catch (const char* exception)
     {
         std::string str(exception);
-        sf::Window window(sf::VideoMode(600, 1), str);
+        Window window(VideoMode(600, 1), str);
         while (window.isOpen())
         {
-            sf::Event event;
+            Event event;
             while (window.pollEvent(event))
             {
-                if (event.type == sf::Event::Closed)
+                if (event.type == Event::Closed)
                     window.close();
             }
         }
